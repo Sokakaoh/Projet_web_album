@@ -8,7 +8,7 @@
 		<table>
 			<caption>Recapitulatifs des albums (avec twig)</caption>
 			<thead>
-			<tr><th>Album</th><th>Artiste</th><th>id</th><th>Genre</th><th>Prix</th><th>Pochette</th>
+			<tr><th>Album</th><th>Artiste</th><th>Genre</th><th>Prix</th><th>Pochette</th>
 				{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
 					<td>Panier</td>
 				{% endif %}
@@ -23,7 +23,6 @@
 				<tr>
 					<td>{{album.nom}}</td>
 					<td>{{ album.artiste }}</td>
-					<td>{{album.id}}</td>
 					<td>{{album.libelle}}</td>
 					<td>{{album.prix}}</td>
 					<td>
