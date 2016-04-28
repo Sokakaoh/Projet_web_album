@@ -84,6 +84,15 @@ class AlbumModel {
         ;
         return $queryBuilder->execute();
     }
+    public function searchAlbum($idtype){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('nom', 'artiste', 'prix', 'photo')
+            ->from('album','typeAlbum')
+            ->where('album.typeAlbum_id=typeAlbum.id and typeAlbum.id= :idtype')
+            ->setParameter('idtype', $idtype);
+        return $queryBuilder->execute()->fetch();
+    }
 
 
 
