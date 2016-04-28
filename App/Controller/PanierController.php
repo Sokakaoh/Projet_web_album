@@ -35,11 +35,14 @@ class PanierController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
-        $controllers->get('/', 'App\Controller\PanierController::index')->bind('album.index');
+        $controllers->get('/', 'App\Controller\PanierController::index')->bind('album.show');
         $controllers->get('/', 'App\Controller\PanierController::show')->bind('panier.show');
         
         $controllers->get('/delete{id}', 'App\Controller\PanierController::delete')->bind('panier.delete')->assert('id', '\d+');;
         $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('panier.validFormDelete');
+
+        $controllers->get('/add{id}', 'App\Controller\PanierController::add')->bind('panier.add')->assert('id', '\d+');
+        $controllers->post('/add', 'App\Controller\PanierController::validFormAdd')->bind('panier.validFormAdd');
 
         return $controllers;
     }
@@ -53,6 +56,11 @@ class PanierController implements ControllerProviderInterface
 
     public function validFormDelete(){
 
+    }
+
+    public function add(Application $app, $id){
+        $this->panierModel = new PanierModel($app);
+        return $app["twig"]->render('backOff/Album/show.html.twig');
     }
 
 }

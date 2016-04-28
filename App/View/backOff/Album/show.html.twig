@@ -10,7 +10,7 @@
 			<thead>
 			<tr><th>Album</th><th>Artiste</th><th>id</th><th>Genre</th><th>Prix</th><th>Pochette</th>
 				{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
-					<td>Ajouter au panier</td>
+					<td>Panier</td>
 				{% endif %}
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 					<th>opération</th>
@@ -30,7 +30,9 @@
 						<img style="width:80px;height:80px" src="{{asset('images/')}}{{album.photo}}" alt="image de {{album.libelle}}" >
 					</td>
 					{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
-						<a href="" class="">Ajouter</a>
+						<td>
+							<a href="{{ path('panier.add', {id: album.id}) }}" ><span class="fi-shopping-cart"> Ajouter</span></a>
+						</td>
 					{% endif %}
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
