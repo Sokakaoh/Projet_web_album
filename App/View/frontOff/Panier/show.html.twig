@@ -7,7 +7,7 @@
                 <caption>Votre Panier</caption>
                 <thead>
                 <tr>
-                    <th>Album</th><th>Photo</th><th>Quantité</th><th>Prix / unité</th><th>Prix total</th><th>Date d'ajout</th><th>Gérer</th>
+                    <th>Album</th><th>Photo</th><th>Quantité</th><th>Prix / unité</th><th>Prix total</th><th>Gérer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,7 +22,6 @@
                         </td>
                         <td>{{ panier.prix }}</td>
                         <td>{{ panier.prixTot }}</td>
-                        <td>{{ panier.dateAjoutPanier }}</td>
                         <td>
                             <a href="{{ path('panier.delete', {id: panier.id}) }}"><span class="fi-x"> Supprimer</span></a>
                         </td>

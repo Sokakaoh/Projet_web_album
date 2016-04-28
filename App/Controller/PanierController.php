@@ -6,10 +6,12 @@ use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 use App\Model\PanierModel;
+use App\Model\UserModel;
 
 class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
+    private $userModel;
 
     public function __construct()
     {
@@ -42,7 +44,6 @@ class PanierController implements ControllerProviderInterface
         $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('panier.validFormDelete');
 
         $controllers->get('/add{id}', 'App\Controller\PanierController::add')->bind('panier.add')->assert('id', '\d+');
-        $controllers->post('/add', 'App\Controller\PanierController::validFormAdd')->bind('panier.validFormAdd');
 
         return $controllers;
     }
@@ -58,8 +59,18 @@ class PanierController implements ControllerProviderInterface
 
     }
 
-    public function add(Application $app, $id){
+    public function add(Application $app, $id, $prix, $album_id){
         $this->panierModel = new PanierModel($app);
+        $this->userModel = new UserModel($app);
+        $datas = [
+            'user_id' => $this->userModel->getIdUser(),
+            'quantite' => $this->panierModel->isAlbumInPanier($this->userModel->getIdUser(), $add['idAlbum']),
+            'prix' => $prix,
+            'id' => $id,
+            'album_id' => $album_id,
+            'commande_id' => 1
+        ];
+        $this->panierModel->add($datas);
         return $app["twig"]->render('backOff/Album/show.html.twig');
     }
 

@@ -6,9 +6,11 @@ use Silex\Application;
 class UserModel {
 
 	private $db;
+    private $session;
 
 	public function __construct(Application $app) {
 		$this->db = $app['db'];
+        $this->session = $app['session'];
 	}
 
 	public function verif_login_mdp_Utilisateur($login,$mdp){
@@ -18,5 +20,12 @@ class UserModel {
 			return $res->fetch();
 		else
 			return false;
+	}
+
+	public function getIdUser(){
+        if ($this->session->get('logged') != null){
+            return $this->session->get('id');
+        }
+        return null;
 	}
 }
