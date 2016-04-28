@@ -1,0 +1,51 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+<form method="post" action="{{ path('album.add') }}">
+    <div class="row">
+        <fieldset>
+            <legend>Creer un album (twig)</legend>
+            <label>Nom :
+                <input name="nom"  type="text"  size="18" value="{{donnees.nom|default('')}}" />
+                {% if erreurs.nom is defined %}
+                    <small class="error">{{erreurs.nom}}</small>
+                {% endif %}
+            </label>
+            <label>Artiste:
+                <input name="artiste" type="text" size="18" value="{{ donnees.artiste|default('') }}" />
+                {% if erreurs.nom is defined %}
+                    <small class="error">{{erreurs.nom}}</small>
+                {% endif %}
+            </label>
+            <label>Genre :
+                <select name="typeAlbum_id">
+                    {% if  donnees.typeAlbum_id is not defined or donnees.typeAlbum_id is empty   %}
+                        <option value="">Veuillez sélectionner un genre</option>
+                    {% endif %}
+                    {% for typeAlbum in typeAlbum %}
+                        <option value="{{ typeAlbum.id }}"
+                                {% if donnees.typeAlbum_id is defined and typeAlbum.id == donnees.typeAlbum_id %}selected{% endif %}>
+                            {{ typeAlbum.libelle }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                {% if erreurs.typeAlbum_id is defined %}
+                    <small class="error">{{erreurs.typeAlbum_id}}</small>
+                {% endif %}
+            </label>
+            <label>Prix
+                <input name="prix"  type="text"  size="18" 	value="{{donnees.prix|default('')}}"/>
+                {% if erreurs.prix is defined %}
+                    <small class="error">{{erreurs.prix}}</small>
+                {% endif %}
+            </label>
+            <label>Photo
+                <input name="photo"  type="text"  size="18" value="{{donnees.photo|default('')}}"/>
+                {% if erreurs.photo is defined %}
+                    <small class="error">{{erreurs.photo}}</small>
+                {% endif %}
+            </label>
+            <input type="submit" name="creerAlbum" value="créer" />
+        </fieldset>
+    </div>
+</form>
+{% endblock %}

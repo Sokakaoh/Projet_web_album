@@ -1,0 +1,38 @@
+{% extends "layout.html.twig" %}
+
+{% block contenu %}
+    <div class="row">
+        {% if data is not empty %}
+            <table>
+                <caption>Votre Panier</caption>
+                <thead>
+                <tr>
+                    <th>Album</th><th>Photo</th><th>Quantité</th><th>Prix / unité</th><th>Prix total</th><th>Date d'ajout</th><th>Gérer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for panier in data if data is not empty %}
+                    <tr>
+                        <td>{{ panier.nom }}</td>
+                        <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{panier.photo}}" alt="image de {{panier.photo}}" ></td>
+                        <td>
+                            {{ panier.quantite }}
+                            <a href="#"><span class="fi-plus"></span></a>
+                            <a href="#" onclick=""><span class="fi-minus"></span></a>
+                        </td>
+                        <td>{{ panier.prix }}</td>
+                        <td>{{ panier.prixTot }}</td>
+                        <td>{{ panier.dateAjoutPanier }}</td>
+                        <td>
+                            <a href="{{ path('panier.delete', {id: panier.id}) }}"><span class="fi-x"> Supprimer</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Panier vide.</p>
+            <a href="{{ url('album.show') }}">Voir les produits</a>
+        {%  endif %}
+    </div>
+{%  endblock %}

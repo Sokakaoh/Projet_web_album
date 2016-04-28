@@ -1,0 +1,60 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+	<form method="post" action="{{ path('album.validFormEdit') }}">
+		<div class="row">
+
+
+
+			{% if errors is defined %}
+			     <div data-alert class="alert-box alert round">
+			     
+			     	{% for error in errors %}
+						<li>{{ error.getPropertyPath }} : {{ error.getMessage }}</li>
+					{% endfor %}
+            	
+            	<a href="#" class="close">&times;</a>
+        		</div>
+			{% endif %}
+
+			<fieldset>
+				<legend>Modifier un album  (avec twig)</legend>
+				<input name="id"  type="hidden" value="{{donnees.id}}" />
+				<label>Nom :
+					<input name="nom"  type="text"  size="18" value="{{donnees.nom}}" />
+					{% if erreurs.nom is defined %}
+						<small class="error">{{erreurs.nom}}</small>
+					{% endif %}
+				</label>
+				<label>Type :
+					<select name="typeAlbum_id">
+						{% for typeAlbum in typeAlbums %}
+							<option value="{{ typeAlbum.id }}"
+									{% if donnees.typeAlbum_id is defined and typeAlbum.id == donnees.typeAlbum_id %} selected {% endif %}>
+								{{ typeAlbum.libelle }}
+							</option>
+						{% endfor %}
+					</select>
+					{% if erreurs.typeAlbum_id is defined %}
+						<small class="error">{{erreurs.typeAlbum_id}}</small>
+					{% endif %}
+				</label>
+				<label>Prix
+					<input name="prix"  type="text"  size="18" 	value="{{donnees.prix}}"/>
+					{% if erreurs.prix is defined %}
+						<small class="error">{{erreurs.prix}}</small>
+					{% endif %}
+				</label>
+				<label>Photo
+					<input name="photo"  type="text"  size="18" value="{{donnees.photo}}"/>
+					{% if erreurs.photo is defined %}
+						<small class="error">{{erreurs.photo}}</small>
+					{% endif %}
+				</label>
+
+				<input type="hidden" id="_method" name="_method" value="put" />
+
+				<input type="submit" name="modifierAlbum" value="Modifier" />
+			</fieldset>
+		</div>
+	</form>
+{% endblock %}
