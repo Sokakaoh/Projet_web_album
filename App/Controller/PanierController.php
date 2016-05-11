@@ -64,7 +64,7 @@ class PanierController implements ControllerProviderInterface
         $this->userModel = new UserModel($app);
         $datas = [
             'user_id' => $this->userModel->getIdUser(),
-            'quantite' => $this->panierModel->isAlbumInPanier($this->userModel->getIdUser(), $add['idAlbum']),
+            'quantite' => $this->panierModel->isAlbumInPanier($this->userModel->getIdUser(), $album_id),
             'prix' => $prix,
             'id' => $id,
             'album_id' => $album_id,
