@@ -33,6 +33,7 @@ class UserController implements ControllerProviderInterface {
 			$app['session']->set('droit', $data['droit']);  //dans twig {{ app.session.get('droit') }}
 			$app['session']->set('login', $data['login']);
 			$app['session']->set('logged', 1);
+			$app['session']->set('id', $data['id']);
 			return $app->redirect($app["url_generator"]->generate("album.index"));
 		}
 		else

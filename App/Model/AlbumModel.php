@@ -12,13 +12,8 @@ class AlbumModel {
     public function __construct(Application $app) {
         $this->db = $app['db'];
     }
-    // http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html#join-clauses
+    
     public function getAllAlbums() {
-//        $sql = "SELECT p.id, t.libelle, p.nom, p.prix, p.photo
-//            FROM albums as p,typeAlbums as t
-//            WHERE p.typeAlbum_id=t.id ORDER BY p.nom;";
-//        $req = $this->db->query($sql);
-//        return $req->fetchAll();
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('a.id', 't.libelle', 'a.nom', 'a.artiste', 'a.prix', 'a.photo')
@@ -94,6 +89,15 @@ class AlbumModel {
         return $queryBuilder->execute()->fetch();
     }
 
+    public function getPrixAlbum($id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('prix')
+            ->from('album')
+            ->where('album.id= :id')
+            ->setParameter('id', $id);
+        return $queryBuilder->execute()->fetch();
+    }
 
 
 }

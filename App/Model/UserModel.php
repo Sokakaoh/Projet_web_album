@@ -14,8 +14,8 @@ class UserModel {
 	}
 
 	public function verif_login_mdp_Utilisateur($login,$mdp){
-		$sql = "SELECT login,password,droit FROM users WHERE login = ? AND password = ?";
-		$res=$this->db->executeQuery($sql,[$login,$mdp]);   //md5($mdp);
+		$sql = "SELECT id, login,password,droit FROM users WHERE login = ? AND password = ?";
+		$res=$this->db->executeQuery($sql,[$login,$mdp]);
 		if($res->rowCount()==1)
 			return $res->fetch();
 		else
@@ -24,8 +24,8 @@ class UserModel {
 
 	public function getIdUser(){
         if ($this->session->get('logged') != null){
-            return $this->session->get('id');
+			return $this->session->get('id');
         }
-        return null;
+        return 0;
 	}
 }

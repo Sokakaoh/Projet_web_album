@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 
+use App\Model\AlbumModel;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -12,6 +13,7 @@ class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
     private $userModel;
+    private $albumModel;
 
     public function __construct()
     {
@@ -23,7 +25,8 @@ class PanierController implements ControllerProviderInterface
 
     public function show(Application $app){
         $this->panierModel = new PanierModel($app);
-        $paniers = $this->panierModel->getAllPaniers();
+        $this->userModel = new UserModel($app);
+        $paniers = $this->panierModel->getUserPanier($this->userModel->getIdUser());
         return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }
 
@@ -44,6 +47,9 @@ class PanierController implements ControllerProviderInterface
         $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('panier.validFormDelete');
 
         $controllers->get('/add{id}', 'App\Controller\PanierController::add')->bind('panier.add')->assert('id', '\d+');
+        $controllers->get('/increment{id}', 'App\Controller\PanierController::increment')->bind('panier.increment')->assert('id', '\d+');
+        $controllers->get('/decrement{id}', 'App\Controller\PanierController::decrement')->bind('panier.decrement')->assert('id', '\d+');
+
 
         return $controllers;
     }
@@ -59,19 +65,58 @@ class PanierController implements ControllerProviderInterface
 
     }
 
-    public function add(Application $app, $id, $prix, $album_id){
+    public function add(Application $app, $id){
         $this->panierModel = new PanierModel($app);
+        $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
         $datas = [
-            'user_id' => $this->userModel->getIdUser(),
-            'quantite' => $this->panierModel->isAlbumInPanier($this->userModel->getIdUser(), $album_id),
-            'prix' => $prix,
-            'id' => $id,
-            'album_id' => $album_id,
-            'commande_id' => 1
+            'userId' => $this->userModel->getIdUser(),
+            'quantite' => 1,
+            'prix' => $this->albumModel->getPrixAlbum($id)['prix'],
+            'albumId' => $id,
+            'commandeId' => 1
         ];
         $this->panierModel->add($datas);
-        return $app["twig"]->render('backOff/Album/show.html.twig');
+        /*$Albums = $this->albumModel->getAllAlbums();
+        return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
+        $paniers = $this->panierModel->getAllPaniers();
+        return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
+    }
+    
+    
+    public function decrement(Application $app, $id){
+        $this->panierModel = new PanierModel($app);
+        $this->albumModel = new AlbumModel($app);
+        $this->userModel = new UserModel($app);
+        if ((int)$this->panierModel->getQuantiteById($id, $this->userModel->getIdUser())['quantite'] == 1){
+            $this->panierModel->delete($id);
+        }else{
+            $datas = [
+                'userId' => $this->userModel->getIdUser(),
+                'id' => $id,
+                'commandeId' => 1
+            ];
+            $this->panierModel->decrementAlbum($datas);
+        }
+        /*$Albums = $this->albumModel->getAllAlbums();
+        return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
+        $paniers = $this->panierModel->getAllPaniers();
+        return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }
 
+    public function increment(Application $app, $id){
+        $this->panierModel = new PanierModel($app);
+        $this->albumModel = new AlbumModel($app);
+        $this->userModel = new UserModel($app);
+        $datas = [
+            'userId' => $this->userModel->getIdUser(),
+            'id' => $id,
+            'commandeId' => 1
+        ];
+        $this->panierModel->incrementAlbum($datas);
+        /*$Albums = $this->albumModel->getAllAlbums();
+        return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
+        $paniers = $this->panierModel->getAllPaniers();
+        return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
+    }
 }

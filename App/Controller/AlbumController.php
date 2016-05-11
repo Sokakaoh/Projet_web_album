@@ -16,9 +16,8 @@ use Symfony\Component\Security;
 
 class AlbumController implements ControllerProviderInterface
 {
-    private $albumController;
-    private $typeAlbumModel;
     private $albumModel;
+    private $typeAlbumModel;
 
     public function __construct()
     {
@@ -29,8 +28,8 @@ class AlbumController implements ControllerProviderInterface
     }
 
     public function show(Application $app) {
-        $this->albumController = new AlbumModel($app);
-        $Albums = $this->albumController->getAllAlbums();
+        $this->albumModel = new AlbumModel($app);
+        $Albums = $this->albumModel->getAllAlbums();
         return $app["twig"]->render('backOff/Album/show.html.twig',['data'=>$Albums]);
     }
 
@@ -85,16 +84,16 @@ class AlbumController implements ControllerProviderInterface
     public function delete(Application $app, $id) {
         $this->typeAlbumModel = new TypeAlbumModel($app);
         $typeAlbums = $this->typeAlbumModel->getAllTypeAlbums();
-        $this->albumController = new AlbumModel($app);
-        $donnees = $this->albumController->getAlbum($id);
+        $this->albumModel = new AlbumModel($app);
+        $donnees = $this->albumModel->getAlbum($id);
         return $app["twig"]->render('backOff/Album/delete.html.twig',['typeAlbums'=>$typeAlbums,'donnees'=>$donnees]);
     }
 
     public function validFormDelete(Application $app, Request $req) {
         $id=$app->escape($req->get('id'));
         if (is_numeric($id)) {
-            $this->albumController = new AlbumModel($app);
-            $this->albumController->deleteAlbum($id);
+            $this->albumModel = new AlbumModel($app);
+            $this->albumModel->deleteAlbum($id);
             return $app->redirect($app["url_generator"]->generate("album.index"));
         }
         else
@@ -105,8 +104,8 @@ class AlbumController implements ControllerProviderInterface
     public function edit(Application $app, $id) {
         $this->typeAlbumModel = new TypeAlbumModel($app);
         $typeAlbums = $this->typeAlbumModel->getAllTypeAlbums();
-        $this->albumController = new AlbumModel($app);
-        $donnees = $this->albumController->getAlbum($id);
+        $this->albumModel = new AlbumModel($app);
+        $donnees = $this->albumModel->getAlbum($id);
         return $app["twig"]->render('backOff/Album/edit.html.twig',['typeAlbums'=>$typeAlbums,'donnees'=>$donnees]);
     }
 
