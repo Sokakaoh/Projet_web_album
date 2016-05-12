@@ -69,13 +69,7 @@ class PanierModel {
     }
 
     public function incrementAlbum($datas){
-        echo "increment model ";
         $qte = (int)$this->getQuantiteById($datas['id'], $datas['user_id']) + 1;
-        echo $datas['id'];
-        echo " ";
-        echo $datas['user_id'];
-        echo " ";
-        echo $datas['album_id'];
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('paniers')
@@ -89,15 +83,7 @@ class PanierModel {
     }
 
     public function decrementAlbum($datas){
-        echo "increment model ";
         $qte = (int)$this->getQuantiteById($datas['id'], $datas['user_id']) - 1;
-        echo $qte ;
-        echo " ";
-        echo $datas['id'];
-        echo " ";
-        echo $datas['user_id'];
-        echo " ";
-        echo $datas['album_id'];
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('paniers')
@@ -133,6 +119,18 @@ class PanierModel {
             ->setParameter('user_id', $user_id)
             ->setParameter('id', $id);
         return $queryBuilder->execute()->fetch();
+    }
+
+    public function getPanierId($user_id, $album_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('id')
+            ->from('paniers')
+            ->where('user_id = ? and album_id = ?')
+            ->setParameter(0, $user_id)
+            ->setParameter(1, $album_id);
+
+        return (int)$queryBuilder->execute()->fetchAll()['id'];
     }
 
 

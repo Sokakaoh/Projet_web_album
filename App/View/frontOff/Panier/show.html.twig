@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block contenu %}
-    <form method="post" action="{{ path('commandes.add') }}">
+    <form method="post">
     <div class="row">
         {% if data is not empty %}
             <table>
@@ -34,7 +34,7 @@
                 </tbody>
 
             </table>
-            <input type="submit" name="commandeDone" value="Valider Commande" />
+            <a href="{{ path('commande.add') }}">Valider commande</a>
         {% else %}
             <p>Panier vide.</p>
             <a href="{{ url('album.show') }}">Voir les produits</a>

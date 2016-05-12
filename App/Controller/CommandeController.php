@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 
+use App\Model\PanierModel;
 use App\Model\UserModel;
 use Silex\Application;
 use Silex\ControllerCollection;
@@ -12,6 +13,8 @@ use App\Model\CommandeModel;
 class CommandeController implements ControllerProviderInterface
 {
     private $commandeModel;
+    private $userModel;
+    private $panierModel;
 
     public function __construct()
     {
@@ -29,18 +32,25 @@ class CommandeController implements ControllerProviderInterface
         return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
     }
 
-   public function add(Application $app, $id, $prix, $date, $etats_id){
-        $this->commandeModel = new CommandeModel($app);
-        $this->userModel = new UserModel($app);
-        $datas = [
-            'id' => $id,
-            'user_id' => $this->userModel->getIdUser(),
-            'prix' => $prix,
-            'date' => $date,
-            'etats_id' => $etats_id
-        ];
-        $this->CommandeModel->add($datas);
-        return $app["twig"]->render('frontOff/Commande/show.html.twig');
+   public function add(Application $app){
+       $this->commandeModel = new CommandeModel($app);
+       $this->panierModel = new PanierModel($app);
+       $this->userModel = new UserModel($app);
+
+       $user_id = $this->userModel->getIdUser();
+       echo $user_id;
+       $panier_id = (int)$this->panierModel->getUserPanier($user_id)['id'];
+       echo $panier_id;
+       $datas = [
+           'id' => $panier_id,
+           'user_id' => $user_id,
+           'prix' => 0,
+           'date' => 0,
+           'etat_id' => 1
+       ];
+       $this->commandeModel->add($datas);
+       $commandes = $this->commandeModel->getUserCommandes($user_id);
+       return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
     }
 
     /**
@@ -54,10 +64,10 @@ class CommandeController implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
 
-        $controllers->get('/', 'App\Controller\CommandeController::index')->bind('commandes.show');
-        $controllers->get('/show', 'App\Controller\CommandeController::show')->bind('commandes.show');
+        $controllers->get('/', 'App\Controller\CommandeController::index')->bind('commande.show');
+        $controllers->get('/show', 'App\Controller\CommandeController::show')->bind('commande.show');
 
-        $controllers->post('/add', 'App\Controller\CommandeController::add')->bind('commandes.add');
+        $controllers->get('/add', 'App\Controller\CommandeController::add')->bind('commande.add');
 
 
         return $controllers;

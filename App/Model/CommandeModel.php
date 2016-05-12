@@ -32,9 +32,20 @@ class CommandeModel
                 'user_id' => $datas['user_id'],
                 'prix' => $datas['prix'],
                 'date' => $datas['date'],
-                'etats_id' => $datas['etats_id']
+                'etat_id' => $datas['etat_id']
             ]);
         return $queryBuilder->execute();
+    }
+
+    public function getUserCommandes($user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id')
+            ->from('commandes', 'c')
+            ->where('c.user_id = ?')
+            ->setParameter(0, $user_id);
+
+        return $queryBuilder->execute()->fetchAll();
     }
 
 

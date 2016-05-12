@@ -79,12 +79,12 @@ class PanierController implements ControllerProviderInterface
             'prix' => $this->albumModel->getPrixAlbum($id)['prix'],
             'album_id' => $id,
             'commandeId' => 1,
-            'id' => $this->panierModel->getUserPanier($user_id)['id']
+            'id' => $this->panierModel->getPanierId($user_id, $id)
         ];
         $this->panierModel->add($datas);
         /*$Albums = $this->albumModel->getAllAlbums();
         return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
-        $paniers = $this->panierModel->getAllPaniers();
+        $paniers = $this->panierModel->getUserPanier($user_id);
         return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }
     
@@ -107,7 +107,7 @@ class PanierController implements ControllerProviderInterface
         }
         /*$Albums = $this->albumModel->getAllAlbums();
         return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
-        $paniers = $this->panierModel->getAllPaniers();
+        $paniers = $this->panierModel->getUserPanier($user_id);
         return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }
 
@@ -115,8 +115,9 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
         $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
+        $user_id = $this->userModel->getIdUser();
         $datas = [
-            'user_id' => $this->userModel->getIdUser(),
+            'user_id' => $user_id,
             'id' => $id,
             'commandeId' => 1,
             'album_id' => $this->panierModel->getSpecificPanier($this->userModel->getIdUser(), $id)['album_id']
@@ -124,7 +125,7 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel->incrementAlbum($datas);
         /*$Albums = $this->albumModel->getAllAlbums();
         return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
-        $paniers = $this->panierModel->getAllPaniers();
+        $paniers = $this->panierModel->getUserPanier($user_id);
         return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }
 }
