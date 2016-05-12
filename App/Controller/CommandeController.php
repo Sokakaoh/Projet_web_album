@@ -39,10 +39,8 @@ class CommandeController implements ControllerProviderInterface
 
        $user_id = $this->userModel->getIdUser();
        echo $user_id;
-       $panier_id = (int)$this->panierModel->getUserPanier($user_id)['id'];
-       echo $panier_id;
+
        $datas = [
-           'id' => $panier_id,
            'user_id' => $user_id,
            'prix' => 0,
            'date' => 0,

@@ -130,7 +130,7 @@ class PanierModel {
             ->setParameter(0, $user_id)
             ->setParameter(1, $album_id);
 
-        return (int)$queryBuilder->execute()->fetchAll()['id'];
+        return (int)$queryBuilder->execute()->fetch()['id'];
     }
 
 

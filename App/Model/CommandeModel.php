@@ -9,14 +9,15 @@ use Symfony\Component\Validator\Constraints\Date;
 class CommandeModel
 {
     private $db;
+    private $panierModel;
 
     public function __construct(Application $app)
     {
         $this->db = $app['db'];
+        $this->panierModel = new PanierModel($app);
     }
 
-    public function getAllCommandes()
-    {
+    public function getAllCommandes(){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id')
@@ -25,16 +26,32 @@ class CommandeModel
     }
 
     public function add($datas){
+        $prix = 0;
+        $panier = $this->panierModel->getUserPanier($datas['user_id']);
+        foreach ($panier as $album){
+            $prix += $album['quantite'] * $album['prix'];
+        }
+
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->insert('commandes')
             ->values([
-                'id' => $datas['id'],
-                'user_id' => $datas['user_id'],
-                'prix' => $datas['prix'],
-                'date' => $datas['date'],
-                'etat_id' => $datas['etat_id']
-            ]);
-        return $queryBuilder->execute();
+                'user_id' => '?',
+                'etat_id' => '1',
+                'prix' => '?'
+            ])
+            ->setParameter(0, (int)$datas['user_id'])
+            ->setParameter(1, $prix);
+        $queryBuilder->execute();
+
+        $id = $this->db->lastInsertId();
+
+        $queryBuilder =  new QueryBuilder($this->db);
+        $queryBuilder->update('paniers')
+            ->set('commande_id', ':id')
+            ->where('user_id = :user_id and commande_id = 1')
+            ->setParameter('user_id', (int)$datas['user_id'])
+            ->setParameter('id', $id);
+        $queryBuilder->execute();
     }
 
     public function getUserCommandes($user_id){
