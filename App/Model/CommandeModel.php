@@ -24,5 +24,18 @@ class CommandeModel
         return $queryBuilder->execute()->fetchAll();
     }
 
-    
+    public function add($datas){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->insert('commandes')
+            ->values([
+                'id' => $datas['id'],
+                'user_id' => $datas['user_id'],
+                'prix' => $datas['prix'],
+                'date' => $datas['date'],
+                'etats_id' => $datas['etats_id']
+            ]);
+        return $queryBuilder->execute();
+    }
+
+
 }

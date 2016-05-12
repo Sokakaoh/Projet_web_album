@@ -1,6 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block contenu %}
+    <form method="post" action="{{ path('commandes.add') }}">
     <div class="row">
         {% if data is not empty %}
             <table>
