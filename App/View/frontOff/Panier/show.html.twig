@@ -8,7 +8,7 @@
                 <caption>Votre Commandes</caption>
                 <thead>
                 <tr>
-                    <th>Id</th><th>Photo</th><th>Quantité</th><th>Prix / unité</th><th>Prix total</th><th>Gérer</th>
+                    <th>Album</th><th>Photo</th><th>Quantité</th><th>Prix / unité</th><th>Prix total</th><th>Gérer</th><th>DEBUG: panier_id - user_id - album_id</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,6 +26,7 @@
                         <td>
                             <a href="{{ path('panier.delete', {id: panier.id}) }}"><span class="fi-x"> Supprimer</span></a>
                         </td>
+                        <td>{{ panier.id }} - {{ panier.user_id }} - {{ panier.album_id }}</td>
                     </tr>
                 {% endfor %}
 

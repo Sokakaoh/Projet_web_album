@@ -46,9 +46,12 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/delete{id}', 'App\Controller\PanierController::delete')->bind('panier.delete')->assert('id', '\d+');;
         $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('panier.validFormDelete');
 
-        $controllers->get('/add{id}', 'App\Controller\PanierController::add')->bind('panier.add')->assert('id', '\d+');
-        $controllers->get('/increment{id}', 'App\Controller\PanierController::increment')->bind('panier.increment')->assert('id', '\d+');
-        $controllers->get('/decrement{id}', 'App\Controller\PanierController::decrement')->bind('panier.decrement')->assert('id', '\d+');
+        $controllers->get('/add{id}', 'App\Controller\PanierController::add')->bind('panier.add')
+            ->assert('id', '\d+');
+        $controllers->get('/increment{id}', 'App\Controller\PanierController::increment')->bind('panier.increment')
+            ->assert('id', '\d+');
+        $controllers->get('/decrement{id}', 'App\Controller\PanierController::decrement')->bind('panier.decrement')
+            ->assert('id', '\d+');
 
 
         return $controllers;
@@ -69,12 +72,14 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
         $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
+        $user_id = $this->userModel->getIdUser();
         $datas = [
-            'userId' => $this->userModel->getIdUser(),
+            'user_id' => $user_id,
             'quantite' => 1,
             'prix' => $this->albumModel->getPrixAlbum($id)['prix'],
-            'albumId' => $id,
-            'commandeId' => 1
+            'album_id' => $id,
+            'commandeId' => 1,
+            'id' => $this->panierModel->getUserPanier($user_id)['id']
         ];
         $this->panierModel->add($datas);
         /*$Albums = $this->albumModel->getAllAlbums();
@@ -88,13 +93,15 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
         $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
-        if ((int)$this->panierModel->getQuantiteById($id, $this->userModel->getIdUser())['quantite'] == 1){
+        $user_id =  $this->userModel->getIdUser();
+        if ((int)$this->panierModel->getQuantiteById($id, $user_id) == 1){
             $this->panierModel->delete($id);
         }else{
             $datas = [
-                'userId' => $this->userModel->getIdUser(),
+                'user_id' => $user_id,
                 'id' => $id,
-                'commandeId' => 1
+                'commandeId' => 1,
+                'album_id' => $this->panierModel->getSpecificPanier($user_id, $id)['album_id']
             ];
             $this->panierModel->decrementAlbum($datas);
         }
@@ -109,9 +116,10 @@ class PanierController implements ControllerProviderInterface
         $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
         $datas = [
-            'userId' => $this->userModel->getIdUser(),
+            'user_id' => $this->userModel->getIdUser(),
             'id' => $id,
-            'commandeId' => 1
+            'commandeId' => 1,
+            'album_id' => $this->panierModel->getSpecificPanier($this->userModel->getIdUser(), $id)['album_id']
         ];
         $this->panierModel->incrementAlbum($datas);
         /*$Albums = $this->albumModel->getAllAlbums();
