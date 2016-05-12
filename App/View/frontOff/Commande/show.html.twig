@@ -1,0 +1,33 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    <div class="row">
+        {% if data is not empty %}
+            <table>
+                <caption>Vos commandes</caption>
+                <thead>
+                <tr>
+                    <th>Id</th><th>Prix de la commande</th><th>Gérer la commande</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for commandes in data if data is not empty %}
+                    <tr>
+                        <td>{{ commandes.id }}</td>
+                        <td>{{ commandes.prix }}</td>
+                        <td>
+                        <a href="{{ path('commandes.valid', {id: panier.id}) }}"><span class="fi-x"> Valider</span></a>
+                        <a href="{{ path('commandes.delete', {id: panier.id}) }}"><span class="fi-x"> Supprimer</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+        {% else %}
+            <p>Liste des commandes vide.</p>
+            <a href="{{ url('album.show') }}">Voir les produits</a>
+        {%  endif %}
+    </div>
+{%  endblock %}
