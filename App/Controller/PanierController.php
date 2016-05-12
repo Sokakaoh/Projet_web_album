@@ -40,8 +40,8 @@ class PanierController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
-        $controllers->get('/', 'App\Controller\PanierController::index')->bind('album.show');
-        $controllers->get('/', 'App\Controller\PanierController::show')->bind('panier.show');
+        $controllers->get('/', 'App\Controller\PanierController::index')->bind('panier.show');
+        $controllers->get('/show', 'App\Controller\PanierController::show')->bind('panier.show');
         
         $controllers->get('/delete{id}', 'App\Controller\PanierController::delete')->bind('panier.delete')->assert('id', '\d+');;
         $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('panier.validFormDelete');

@@ -43,7 +43,7 @@ class PanierModel {
             ->where('p.user_id = :user_id')
             ->addOrderBy('p.quantite', 'ASC')
             ->setParameter('user_id', $user_id);
-        return $queryBuilder->execute()->fetch();
+        return $queryBuilder->execute()->fetchAll();
     }
 
     public function add($datas){
@@ -61,7 +61,7 @@ class PanierModel {
             ->values([
                 'quantite' => 1,
                 'prix' => $datas['prix'],
-                'user_id' => $datas['userId'],
+                'user_id' => $datas['user_id'],
                 'album_id' => $datas['album_id'],
                 'commande_id' => $datas['commandeId']
             ]);
