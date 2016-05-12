@@ -45,12 +45,7 @@ class CommandeModel
 
         $id = $this->db->lastInsertId();
 
-        $queryBuilder =  new QueryBuilder($this->db);
-        $queryBuilder->update('paniers')
-            ->set('commande_id', ':id')
-            ->where('user_id = :user_id and commande_id = 1')
-            ->setParameter('user_id', (int)$datas['user_id'])
-            ->setParameter('id', $id);
+        //TODO: suppression du panier qui a été validé en commande.
         $queryBuilder->execute();
     }
 

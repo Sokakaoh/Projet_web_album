@@ -94,7 +94,8 @@ class PanierController implements ControllerProviderInterface
         $this->albumModel = new AlbumModel($app);
         $this->userModel = new UserModel($app);
         $user_id =  $this->userModel->getIdUser();
-        if ((int)$this->panierModel->getQuantiteById($id, $user_id) == 1){
+        $qte = (int)$this->panierModel->getQuantiteById($id, $user_id);
+        if ($qte == 1){
             $this->panierModel->delete($id);
         }else{
             $datas = [
