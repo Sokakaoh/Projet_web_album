@@ -18,7 +18,9 @@ INSERT INTO typeAlbum (id, libelle) VALUES
 (4, 'AfroTrap'),
 (5, 'Classique'),
 (6, 'R&B'),
-(7, 'Reggae');
+(7, 'Reggae'),
+(8, 'Hip Hop'),
+(9, 'Spoken Word');
 
 -- --------------------------------------------------------
 -- Structure de la table etats
@@ -61,7 +63,12 @@ INSERT INTO album (typeAlbum_id, nom,artiste, prix,photo, dispo,stock) VALUES
 (6, 'Confessions', 'Usher', '18', 'usher.jpeg', 1, 20),
 (6, 'Tatoos', 'Jason Derulo', '16', 'JasonDerulo.jpeg', 1, 20),
 (7, 'Best Of Marley', 'Bob Marley', '30', 'marley.jpeg', 1, 20),
-(7, 'Street Tape Vol.2', 'Taïro', '21', 'tairo.jpeg', 1, 0);
+(7, 'Street Tape Vol.2', 'Taïro', '21', 'tairo.jpeg', 1, 0),
+(2, 'Bangarang', 'Skrillex', '15', 'skrillex.jpg', 1, 10),
+(1, 'L\'Empereur du Sale', 'Lorenzo', '20', 'lorenzo.jpg', 1, 30),
+(3, 'Lemonade', 'Beyonce', '10', 'beyonce.jpg', 1, 5),
+(8, 'Views', 'Drake', '40', 'drake.jpg', 1, 15),
+(8, '150 900', 'Fauve', '32', 'fauve.jpg', 1, 50);
 
 
 -- --------------------------------------------------------
