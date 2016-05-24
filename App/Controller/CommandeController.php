@@ -16,8 +16,8 @@ class CommandeController implements ControllerProviderInterface
     private $userModel;
     private $panierModel;
 
-    public function __construct()
-    {
+    public function __construct(){
+
     }
 
     public function index(Application $app)
@@ -25,10 +25,10 @@ class CommandeController implements ControllerProviderInterface
         return $this->show($app);
     }
 
-    public function show(Application $app)
-    {
+    public function show(Application $app){
         $this->commandeModel = new CommandeModel($app);
         $this->userModel = new UserModel($app);
+
         $commandes = $this->commandeModel->getUserCommandes($this->userModel->getIdUser());
         return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
     }
@@ -67,7 +67,19 @@ class CommandeController implements ControllerProviderInterface
 
         $controllers->get('/add', 'App\Controller\CommandeController::add')->bind('commande.add');
 
+        $controllers->get('/delete{id}', 'App\Controller\CommandeController::delete')->bind('commande.delete')
+            ->assert('id', '\d+');
+
 
         return $controllers;
+    }
+
+    public function delete(Application $app, $id){
+        $this->commandeModel = new CommandeModel($app);
+        $this->commandeModel->delete($id);
+
+        $this->userModel = new UserModel($app);
+        $commandes = $this->commandeModel->getUserCommandes($this->userModel->getIdUser());
+        return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
     }
 }

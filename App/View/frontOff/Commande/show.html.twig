@@ -17,7 +17,7 @@
                         <td>
                             {% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITadmin' %}
                                 <a href="#"><span class="fi-x"> Valider</span></a>
-                                <a href="#"><span class="fi-x"> Supprimer</span></a>
+                                <a href="{{ path('commande.delete', {id: commandes.id}) }}"><span class="fi-x"> Supprimer</span></a>
                             {% elseif app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
                                     <a href="#"><span class="fi-x"> Annuler la commande</span> </a>
                             {% endif %}

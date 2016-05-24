@@ -46,8 +46,7 @@ class CommandeModel
         $queryBuilder->execute();
 
         $id = $this->db->lastInsertId();
-
-        //TODO: suppression du panier qui a été validé en commande.
+        
         $this->panierModel->deleteUserPanier($datas['user_id']);
     }
 
@@ -63,6 +62,15 @@ class CommandeModel
             ->setParameter(0, $user_id);
 
         return $queryBuilder->execute()->fetchAll();
+    }
+
+    public function delete($id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->delete('commandes')
+            ->where('id = ?')
+            ->setParameter(0, (int)$id);
+        return $query->execute();
     }
 
 
