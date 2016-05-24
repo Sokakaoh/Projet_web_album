@@ -16,7 +16,7 @@ class AlbumModel {
     public function getAllAlbums() {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('a.id', 't.libelle', 'a.nom', 'a.artiste', 'a.prix', 'a.photo')
+            ->select('a.id', 't.libelle', 'a.nom', 'a.artiste', 'a.prix', 'a.photo', 'a.stock')
             ->from('album', 'a')
             ->innerJoin('a', 'typeAlbum', 't', 'a.typeAlbum_id=t.id')
             ->addOrderBy('a.nom', 'ASC');
@@ -97,6 +97,16 @@ class AlbumModel {
             ->where('album.id= :id')
             ->setParameter('id', $id);
         return $queryBuilder->execute()->fetch();
+    }
+
+    public function decrementQteAlbum($album_id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->update('album')
+            ->set('stock', 'stock - 1')
+            ->where("id = ?")
+            ->setParameter(0, $album_id);
+        $query->execute();
     }
 
 

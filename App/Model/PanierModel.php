@@ -8,10 +8,12 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class PanierModel {
     private $db;
+    private $albumModel;
 
     public function __construct(Application $app)
     {
         $this->db = $app['db'];
+        $this->albumModel = new AlbumModel($app);
     }
 
     public function getAllPaniers(){
@@ -48,6 +50,7 @@ class PanierModel {
 
     public function add($datas){
         $paniers = $this->getAllPaniers();
+        echo "test".$datas['nom'];
         // On vérifie que l'album n'est pas déja dans le panier
         foreach ($paniers as $p){
             // Si c'est le cas on modifie la quantite et le prix
@@ -65,6 +68,8 @@ class PanierModel {
                 'album_id' => $datas['album_id'],
                 'commande_id' => $datas['commandeId']
             ]);
+        
+        $this->albumModel->decrementQteAlbum($datas['album_id']);
         return $queryBuilder->execute();
     }
 

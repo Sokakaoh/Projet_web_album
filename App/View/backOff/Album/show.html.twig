@@ -6,7 +6,7 @@
 		{% endif %}
 
 		<table>
-			<caption>Recapitulatifs des albums (avec twig)</caption>
+			<caption>Recapitulatifs des albums</caption>
 			<thead>
 			<tr><th>Album</th><th>Artiste</th><th>Genre</th><th>Prix</th><th>Pochette</th>
 				{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
@@ -30,15 +30,25 @@
 					</td>
 					{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
 						<td>
-							<a href="{{ path('panier.add', {id: album.id}) }}" ><span class="fi-shopping-cart"> Ajouter</span></a>
+                            {% if album.stock > 0 %}
+							    <a href="{{ path('panier.add', {id: album.id}) }}" >
+									<span class="fi-shopping-cart" style="margin-left: 30%;"> Ajouter
+                                        <br>(Encore {{ album.stock }} exemplaires)</span></a>
+                            {% else %}
+                                <i class="fi-alert" style="margin-left: 40%; color: red;">
+                                    <br>
+                                    Album victime de son succès !
+                                </i>
+                            {% endif %}
 						</td>
 					{% endif %}
-					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}ck
 						<td>
 							<a href="{{ path('album.edit', {id: album.id}) }}">modifier</a>
 							<a href="{{ path('album.delete', {id: album.id}) }}">supprimer</a>
 						</td>
 					{% endif %}
+
 				</tr>
 			{% endfor %}
 			<tbody>

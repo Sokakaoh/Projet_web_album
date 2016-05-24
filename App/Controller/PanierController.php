@@ -82,8 +82,7 @@ class PanierController implements ControllerProviderInterface
             'id' => $this->panierModel->getPanierId($user_id, $id)
         ];
         $this->panierModel->add($datas);
-        /*$Albums = $this->albumModel->getAllAlbums();
-        return $app["twig"]->render('backOff/Album/show.html.twig', ['data'=>$Albums])*/
+        echo "add".$datas['album_id'];
         $paniers = $this->panierModel->getUserPanier($user_id);
         return $app["twig"]->render('frontOff/Panier/show.html.twig', ['data'=>$paniers]);
     }

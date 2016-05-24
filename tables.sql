@@ -49,19 +49,19 @@ CREATE TABLE IF NOT EXISTS album (
   CONSTRAINT fk_album_typeAlbum FOREIGN KEY (typeAlbum_id) REFERENCES typeAlbum (id)
 ) DEFAULT CHARSET=utf8 ;
 
-INSERT INTO album (id, typeAlbum_id, nom,artiste, prix,photo, dispo,stock) VALUES
-(1, 1, 'Feu', 'Nekfeu', '35', 'nekfeu.jpeg', 1, 20),
-(2, 1, 'Nero Nemesis', 'B2O', '10', 'booba.jpeg', 1, 20),
-(3, 2, 'Kiko', 'Panda Eyes', '15', 'panda_eyes.jpeg', 1, 20),
-(4, 4, 'MHD', 'MHD', '10', 'mhd.jpeg', 1, 20),
-(5, 1, 'A7', 'SCH', '20', 'sch.jpeg', 1, 20),
-(6, 2, 'New Gore Order', 'Borgore', '23', 'borgore.jpeg', 1, 20),
-(7, 3, 'Fearless', 'Taylor Swift', '8', 'taylor_swift.jpeg', 1, 20),
-(8, 5, 'The Mozart Collection', 'Mozart', '35', 'mozart.jpeg', 1, 20),
-(9, 6, 'Confessions', 'Usher', '18', 'usher.jpeg', 1, 20),
-(10, 6, 'Tatoos', 'Jason Derulo', '16', 'JasonDerulo.jpeg', 1, 20),
-(11, 7, 'Best Of Marley', 'Bob Marley', '30', 'marley.jpeg', 1, 20),
-(12, 7, 'Street Tape Vol.2', 'Taïro', '21', 'tairo.jpeg', 1, 20);
+INSERT INTO album (typeAlbum_id, nom,artiste, prix,photo, dispo,stock) VALUES
+(1, 'Feu', 'Nekfeu', '35', 'nekfeu.jpeg', 1, 20),
+(1, 'Nero Nemesis', 'B2O', '10', 'booba.jpeg', 1, 20),
+(2, 'Kiko', 'Panda Eyes', '15', 'panda_eyes.jpeg', 1, 20),
+(4, 'MHD', 'MHD', '10', 'mhd.jpeg', 1, 20),
+(1, 'A7', 'SCH', '20', 'sch.jpeg', 1, 20),
+(2, 'New Gore Order', 'Borgore', '23', 'borgore.jpeg', 1, 0),
+(3, 'Fearless', 'Taylor Swift', '8', 'taylor_swift.jpeg', 1, 20),
+(5, 'The Mozart Collection', 'Mozart', '35', 'mozart.jpeg', 1, 20),
+(6, 'Confessions', 'Usher', '18', 'usher.jpeg', 1, 20),
+(6, 'Tatoos', 'Jason Derulo', '16', 'JasonDerulo.jpeg', 1, 20),
+(7, 'Best Of Marley', 'Bob Marley', '30', 'marley.jpeg', 1, 20),
+(7, 'Street Tape Vol.2', 'Taïro', '21', 'tairo.jpeg', 1, 0);
 
 
 -- --------------------------------------------------------
@@ -104,10 +104,7 @@ CREATE TABLE IF NOT EXISTS commandes (
   CONSTRAINT fk_commandes_users FOREIGN KEY (user_id) REFERENCES users (id),
   CONSTRAINT fk_commandes_etats FOREIGN KEY (etat_id) REFERENCES etats (id)
 ) DEFAULT CHARSET=utf8 ;
-/*INSERT INTO commandes (id,user_id,prix,etat_id) VALUES
-  (1, 3, '7.5', 1),
-  (2, 4, '8.0', 2),
-  (3, 5, '2.2', 1);*/
+
 
 
 
@@ -123,7 +120,7 @@ CREATE TABLE IF NOT EXISTS paniers (
   PRIMARY KEY (id, album_id)/*,
  CONSTRAINT fk_paniers_users FOREIGN KEY (user_id) REFERENCES users (id),
   CONSTRAINT fk_paniers_produits FOREIGN KEY (produit_id) REFERENCES produits (id),
-  CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes (id)*/
+  CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes */
 ) DEFAULT CHARSET=utf8;
 INSERT INTO paniers (id,quantite,prix,user_id,album_id,commande_id ) VALUES
 (1, 2, '5.5',3,2,1),
