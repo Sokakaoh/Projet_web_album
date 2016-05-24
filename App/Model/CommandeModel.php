@@ -10,9 +10,10 @@ class CommandeModel
 {
     private $db;
     private $panierModel;
+    private $userModel;
 
-    public function __construct(Application $app)
-    {
+    public function __construct(Application $app){
+        $this->userModel = new UserModel($app);
         $this->db = $app['db'];
         $this->panierModel = new PanierModel($app);
     }
@@ -20,8 +21,9 @@ class CommandeModel
     public function getAllCommandes(){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id')
-            ->from('commandes', 'c');
+            ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id', 'e.libelle as etat')
+            ->from('commandes', 'c')
+            ->InnerJoin('c', 'etats', 'e', 'c.etat_id = e.id');
         return $queryBuilder->execute()->fetchAll();
     }
 
@@ -51,6 +53,8 @@ class CommandeModel
 
     public function getUserCommandes($user_id){
         $queryBuilder = new QueryBuilder($this->db);
+        if ($this->userModel->isAdmin())
+            return $this->getAllCommandes();
         $queryBuilder
             ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id', 'e.libelle as etat')
             ->from('commandes', 'c')

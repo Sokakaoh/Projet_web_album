@@ -42,7 +42,7 @@
                             {% endif %}
 						</td>
 					{% endif %}
-					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}ck
+					{% if 9app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
 							<a href="{{ path('album.edit', {id: album.id}) }}">modifier</a>
 							<a href="{{ path('album.delete', {id: album.id}) }}">supprimer</a>

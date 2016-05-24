@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 class UserModel {
@@ -27,5 +28,12 @@ class UserModel {
 			return $this->session->get('id');
         }
         return 0;
+	}
+	
+	public function isAdmin(){
+		if ($this->session->get('logged') != null && $this->session->get('droit') == 'DROITadmin')
+            return true;
+        else
+            return false;
 	}
 }

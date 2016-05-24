@@ -6,19 +6,23 @@
                 <caption>Vos commandes</caption>
                 <thead>
                 <tr>
-                    <th>Prix de la commande</th><th>Etat</th><th>Gérer la commande</th><th>DEBUG: id user - icd commande</th>
+                    <th>Prix de la commande</th><th>Etat</th><th>Gérer la commande</th><th>Détail</th>
                 </tr>
                 </thead>
                 <tbody>
                 {%  for commandes in data if data is not empty %}
                     <tr>
-                        <td>{{ commandes.prix }}</td>
+                        <td>{{ commandes.prix }} €</td>
                         <td>{{ commandes.etat }}</td>
                         <td>
-                        <a href="#"><span class="fi-x"> Valider</span></a>
-                        <a href="#"><span class="fi-x"> Supprimer</span></a>
+                            {% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITadmin' %}
+                                <a href="#"><span class="fi-x"> Valider</span></a>
+                                <a href="#"><span class="fi-x"> Supprimer</span></a>
+                            {% elseif app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
+                                    <a href="#"><span class="fi-x"> Annuler la commande</span> </a>
+                            {% endif %}
                         </td>
-                        <td>{{ commandes.user_id }} - {{ commandes.id }}</td>
+                        <td>Implemented soon !</td>
                     </tr>
                 {% endfor %}
 
