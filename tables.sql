@@ -65,10 +65,10 @@ INSERT INTO album (typeAlbum_id, nom,artiste, prix,photo, dispo,stock) VALUES
 (7, 'Best Of Marley', 'Bob Marley', '30', 'marley.jpeg', 1, 20),
 (7, 'Street Tape Vol.2', 'Taïro', '21', 'tairo.jpeg', 1, 0),
 (2, 'Bangarang', 'Skrillex', '15', 'skrillex.jpg', 1, 10),
-(1, 'L\'Empereur du Sale', 'Lorenzo', '20', 'lorenzo.jpg', 1, 30),
+(1, "L'Empereur du Sale", 'Lorenzo', '20', 'lorenzo.jpg', 1, 30),
 (3, 'Lemonade', 'Beyonce', '10', 'beyonce.jpg', 1, 5),
 (8, 'Views', 'Drake', '40', 'drake.jpg', 1, 15),
-(8, '150 900', 'Fauve', '32', 'fauve.jpg', 1, 50);
+(9, '150 900', 'Fauve', '32', 'fauve.jpg', 1, 50);
 
 
 -- --------------------------------------------------------
@@ -90,12 +90,12 @@ CREATE TABLE IF NOT EXISTS users (
 ) DEFAULT CHARSET=utf8;
 
 -- Contenu de la table users
-INSERT INTO users (id,login,password,email,valide,droit) VALUES
-(1, 'admin', 'admin', 'admin@gmail.com',1,'DROITadmin'),
-(2, 'vendeur', 'vendeur', 'vendeur@gmail.com',1,'DROITadmin'),
-(3, 'client', 'client', 'client@gmail.com',1,'DROITclient'),
-(4, 'client2', 'client2', 'client2@gmail.com',1,'DROITclient'),
-(5, 'client3', 'client3', 'client3@gmail.com',1,'DROITclient');
+INSERT INTO users (id, nom, code_postal, ville, adresse, login,password,email,valide,droit) VALUES
+(1, 'Evan', '77163', 'Mortcerf', '6 rue du 27 août', 'admin', 'admin', 'admin@gmail.com',1,'DROITadmin'),
+(2, 'Loan', '90000', 'Belfort', 'X rue de Madagascar', 'vendeur', 'vendeur', 'vendeur@gmail.com',1,'DROITadmin'),
+(3, 'Tristan', '75011', 'Paris', '15 place de la République', 'client', 'client', 'client@gmail.com',1,'DROITclient'),
+(4, 'Florent', '75006', 'Paris', '36 bis rue de la Fonse', 'client2', 'client2', 'client2@gmail.com',1,'DROITclient'),
+(5, 'Ahmed', '75002', 'Paris', '2 Avenue des Champs Elysées', 'client3', 'client3', 'client3@gmail.com','1','DROITclient');
 
 
 

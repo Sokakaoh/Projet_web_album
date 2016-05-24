@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Model\UserModel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController implements ControllerProviderInterface {
 
@@ -55,10 +56,43 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+
+
+		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('client.validFormEdit');
+		$controllers->get('/edit', 'App\Controller\UserController::edit')->bind('client.edit');
+
+
 		return $controllers;
 	}
 
-	public function getId(Application $app){
+	public function show(Application $app){
+		$this->userModel = new UserModel($app);
+		$data = $this->userModel->getUser();
 		
+		return $app["twig"]->render('frontOff/Client/show.html.twig', ['data' => $data]);
+	}
+
+	public function validFormEdit(Application $app){
+		if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
+			isset($_POST['ville']) && isset($_POST['email'])){
+			$data = [
+				'nom' => htmlspecialchars($_POST['nom']),
+				'adresse' => $_POST['adresse'],
+				'code_postal' => $_POST['code_postal'],
+				'ville' => $_POST['ville'],
+				'email' => $_POST['email']
+			];
+
+			$this->userModel = new UserModel($app);
+			$this->userModel->editUser($data);
+			$this->userModel = new UserModel($app);
+			$this->userModel->editUser($data);
+
+		}
+		return$this->show($app);
+	}
+
+	public function edit(Application $app){
+		return $this->show($app);
 	}
 }

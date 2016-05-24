@@ -75,8 +75,7 @@ class AlbumModel {
         $queryBuilder
             ->delete('album')
             ->where('id = :id')
-            ->setParameter('id',(int)$id)
-        ;
+            ->setParameter('id',(int)$id);
         return $queryBuilder->execute();
     }
     public function searchAlbum($idtype){

@@ -1,0 +1,65 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    <div class="row">
+        {% if data is not empty  %}
+
+            <form method="post" action="{{ path('client.edit') }}">
+                <div class="row"></div>
+                {% if errors is defined %}
+                    <div data-alert class="alert-box alert round">
+                        <ul>
+                            {% for error in errors %}
+                                <li>{{ error.getPropertyPath }} : {{ error.getMessage }}</li>
+                            {% endfor %}
+                        </ul>
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endif %}
+
+                <fieldset>
+                    <legend>Vos informations</legend>
+                    <input name="id" type="hidden" value="{{ data.id }}" />
+
+                    <label>Nom:
+                        <input name="nom" type="text" value="{{ data.nom }}" />
+                        {% if erreurs.nom is defined %}
+                            <small class="error">{{erreurs.nom}}</small>
+                        {% endif %}
+                    </label>
+
+                    <label>Adresse:
+                        <input name="adresse" type="text" value="{{ data.adresse }}"/>
+                        {% if erreurs.adresse is defined %}
+                            <small class="error">{{erreurs.adresse}}</small>
+                        {% endif %}
+                    </label>
+
+                    <label> Code Postal:
+                        <input name="code_postal" type="text" value="{{ data.code_postal }}" />
+                    </label>
+                    {% if erreurs.code_postal is defined %}
+                        <small class="error">{{erreurs.code_postal}}</small>
+                    {% endif %}
+
+                    <label> Ville:
+                        <input name="ville" type="text" value="{{ data.ville }}" />
+                    </label>
+                    {% if erreurs.ville is defined %}
+                        <small class="error">{{erreurs.ville}}</small>
+                    {% endif %}
+
+                    <label> Email:
+                        <input name="email" type="text" value="{{ data.email }}" />
+                    </label>
+                    {% if erreurs.email is defined %}
+                        <small class="error">{{erreurs.email}}</small>
+                    {% endif %}
+
+                    <input type="hidden" id="_method" name="_method" value="put" />
+                    <input type="submit" name="modifierClient" value="Modifier vos informations">
+                </fieldset>
+            </form>
+
+        {% endif %}
+    </div>
+{% endblock contenu%}

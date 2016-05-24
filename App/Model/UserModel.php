@@ -36,4 +36,37 @@ class UserModel {
         else
             return false;
 	}
+
+	public function getUser(){
+		$query = new QueryBuilder($this->db);
+		$query
+			->select('id', 'email', 'password', 'login', 'nom', 'code_postal',
+				'ville', 'adresse', 'valide', 'droit')
+			->from('users')
+			->where('id = ?')
+			->setParameter(0, (int)$this->getIdUser());
+		
+		return $query->execute()->fetch();
+	}
+
+	public function editUser($data){
+		$query = new QueryBuilder($this->db);
+
+		$query
+			->update('users')
+			->set('nom', '?')
+			->set('adresse', '?')
+			->set('code_postal', '?')
+			->set('ville', '?')
+			->set('email', '?')
+			->where('id = ?')
+			->setParameter(0, $data['nom'])
+			->setParameter(1, $data['adresse'])
+			->setParameter(2, $data['code_postal'])
+			->setParameter(3, $data['ville'])
+			->setParameter(4, $data['email'])
+			->setParameter(5, (int)$this->getIdUser());
+
+		return $query->execute();
+	}
 }
