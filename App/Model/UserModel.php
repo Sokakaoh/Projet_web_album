@@ -59,13 +59,17 @@ class UserModel {
 			->set('code_postal', '?')
 			->set('ville', '?')
 			->set('email', '?')
+			->set('login', '?')
+			->set('password', '?')
 			->where('id = ?')
 			->setParameter(0, $data['nom'])
 			->setParameter(1, $data['adresse'])
 			->setParameter(2, $data['code_postal'])
 			->setParameter(3, $data['ville'])
 			->setParameter(4, $data['email'])
-			->setParameter(5, (int)$this->getIdUser());
+			->setParameter(5, $data['login'])
+			->setParameter(6, $data['password'])
+			->setParameter(7, (int)$this->getIdUser());
 
 		return $query->execute();
 	}

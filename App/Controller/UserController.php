@@ -74,13 +74,16 @@ class UserController implements ControllerProviderInterface {
 
 	public function validFormEdit(Application $app){
 		if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
-			isset($_POST['ville']) && isset($_POST['email'])){
+			isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
+			isset($_POST['password'])){
 			$data = [
 				'nom' => htmlspecialchars($_POST['nom']),
 				'adresse' => $_POST['adresse'],
 				'code_postal' => $_POST['code_postal'],
 				'ville' => $_POST['ville'],
-				'email' => $_POST['email']
+				'email' => $_POST['email'],
+				'login' => $_POST['login'],
+				'password' => $_POST['password']
 			];
 
 			$this->userModel = new UserModel($app);

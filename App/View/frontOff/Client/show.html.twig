@@ -20,6 +20,20 @@
                     <legend>Vos informations</legend>
                     <input name="id" type="hidden" value="{{ data.id }}" />
 
+                    <label> Identifiant:
+                        <input name="login" type="text" value="{{ data.login }}" />
+                    </label>
+                    {% if erreurs.login is defined %}
+                        <small class="error">{{erreurs.login}}</small>
+                    {% endif %}
+
+                    <label> Mot de passe:
+                        <input name="password" type="password" value="{{ data.password }}" />
+                    </label>
+                    {% if erreurs.paswword is defined %}
+                        <small class="error">{{erreurs.password}}</small>
+                    {% endif %}
+
                     <label>Nom:
                         <input name="nom" type="text" value="{{ data.nom }}" />
                         {% if erreurs.nom is defined %}
@@ -56,7 +70,7 @@
                     {% endif %}
 
                     <input type="hidden" id="_method" name="_method" value="put" />
-                    <input type="submit" name="modifierClient" value="Modifier vos informations">
+                    <input type="submit" class="" name="modifierClient" value="Modifier vos informations">
                 </fieldset>
             </form>
 
