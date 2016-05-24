@@ -69,6 +69,9 @@ class CommandeController implements ControllerProviderInterface
 
         $controllers->get('/delete{id}', 'App\Controller\CommandeController::delete')->bind('commande.delete')
             ->assert('id', '\d+');
+        
+        $controllers->get('/valider{id}', 'App\Controller\CommandeController::valider')->bind('commande.valider')
+            ->assert('id', '\d+');
 
 
         return $controllers;
@@ -77,6 +80,15 @@ class CommandeController implements ControllerProviderInterface
     public function delete(Application $app, $id){
         $this->commandeModel = new CommandeModel($app);
         $this->commandeModel->delete($id);
+
+        $this->userModel = new UserModel($app);
+        $commandes = $this->commandeModel->getUserCommandes($this->userModel->getIdUser());
+        return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
+    }
+    
+    public function valider(Application $app, $id){
+        $this->commandeModel = new CommandeModel($app);
+        $this->commandeModel->validerCommande($id);
 
         $this->userModel = new UserModel($app);
         $commandes = $this->commandeModel->getUserCommandes($this->userModel->getIdUser());

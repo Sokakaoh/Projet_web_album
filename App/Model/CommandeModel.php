@@ -46,7 +46,7 @@ class CommandeModel
         $queryBuilder->execute();
 
         $id = $this->db->lastInsertId();
-        
+
         $this->panierModel->deleteUserPanier($datas['user_id']);
     }
 
@@ -70,6 +70,17 @@ class CommandeModel
             ->delete('commandes')
             ->where('id = ?')
             ->setParameter(0, (int)$id);
+        return $query->execute();
+    }
+
+    public function validerCommande($id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->update('commandes')
+            ->set('etat_id', 2)
+            ->where('id = ?')
+            ->setParameter(0, (int)$id);
+
         return $query->execute();
     }
 
