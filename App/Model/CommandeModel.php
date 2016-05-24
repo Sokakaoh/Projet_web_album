@@ -46,14 +46,15 @@ class CommandeModel
         $id = $this->db->lastInsertId();
 
         //TODO: suppression du panier qui a été validé en commande.
-        $queryBuilder->execute();
+        $this->panierModel->deleteUserPanier($datas['user_id']);
     }
 
     public function getUserCommandes($user_id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id')
+            ->select('c.id', 'c.user_id', 'c.prix', 'c.date', 'c.etat_id', 'e.libelle as etat')
             ->from('commandes', 'c')
+            ->InnerJoin('c', 'etats', 'e', 'c.etat_id = e.id')
             ->where('c.user_id = ?')
             ->setParameter(0, $user_id);
 

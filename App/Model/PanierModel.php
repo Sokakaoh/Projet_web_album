@@ -133,5 +133,13 @@ class PanierModel {
         return (int)$queryBuilder->execute()->fetch()['id'];
     }
 
+    public function deleteUserPanier($user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->delete('paniers')
+            ->where('user_id = '.$user_id);
+        $queryBuilder->execute();
+    }
+
 
 }

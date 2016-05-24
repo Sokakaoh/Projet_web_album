@@ -28,7 +28,8 @@ class CommandeController implements ControllerProviderInterface
     public function show(Application $app)
     {
         $this->commandeModel = new CommandeModel($app);
-        $commandes = $this->commandeModel->getAllCommandes();
+        $this->userModel = new UserModel($app);
+        $commandes = $this->commandeModel->getUserCommandes($this->userModel->getIdUser());
         return $app["twig"]->render('frontOff/Commande/show.html.twig', ['data' => $commandes]);
     }
 
@@ -38,7 +39,6 @@ class CommandeController implements ControllerProviderInterface
        $this->userModel = new UserModel($app);
 
        $user_id = $this->userModel->getIdUser();
-       echo $user_id;
 
        $datas = [
            'user_id' => $user_id,
