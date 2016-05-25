@@ -1,2 +1,8 @@
 # Projet_web_album
-Projet S3Bis Gérer un site de commande d'album
+Projet Scolaire
+-Dut informatique Belfort (S3Bis)
+-Technologie: HTML, CSS, Twig, Foundation
+
+Participants:
+- Sokah
+- Evanzyker
