@@ -30,7 +30,7 @@
                     <td>
                         <a href="{{ path('client.modify', {id: user.id}) }}"><i class="fi-widget"> Modifier</i></a>
                         <br/>
-                        <a href="{{ path('client.delete', {id: user.id}) }}"><i class="fi-x"> Supprimer</i></a>
+                        <a href="{{ path('client.valideDelete', {id: user.id}) }}"><i class="fi-x"> Supprimer</i></a>
                     </td>
                 </tr>
             {% endfor %}

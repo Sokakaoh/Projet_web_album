@@ -86,7 +86,7 @@ class AlbumController implements ControllerProviderInterface
         $typeAlbums = $this->typeAlbumModel->getAllTypeAlbums();
         $this->albumModel = new AlbumModel($app);
         $donnees = $this->albumModel->getAlbum($id);
-        return $app["twig"]->render('backOff/Album/delete.html.twig',['typeAlbums'=>$typeAlbums,'donnees'=>$donnees]);
+        return $app["twig"]->render('backOff/Album/valideDelete.html.twig',['typeAlbums'=>$typeAlbums,'donnees'=>$donnees]);
     }
 
     public function validFormDelete(Application $app, Request $req) {

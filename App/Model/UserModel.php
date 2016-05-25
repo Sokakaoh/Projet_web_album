@@ -97,4 +97,13 @@ class UserModel {
 
         return $query->execute()->fetch();
     }
+
+    public function delete($id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->delete('users')
+            ->where('id = ?')
+            ->setParameter(0, $id);
+        return $query->execute();
+    }
 }

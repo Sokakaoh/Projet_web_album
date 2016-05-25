@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    {% if data is not empty %}
+        <form method="post" action="{{ path('client.delete', { id: data.id}) }}">
+            <div class="row">
+                <fieldset>
+                    <legend>Valider la suppression de l'utilisateur: {{ data.nom }}</legend>
+                    <input name="id"  type="hidden" value="{{data.id}}" />
+                    <input type="hidden" id="_method" name="_method" value="delete" />
+                    <input type="submit" name="suppressionUser" value="Suppression" />
+                </fieldset>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -63,8 +63,9 @@ class UserController implements ControllerProviderInterface {
 
         $controllers->get('/modify{id}', 'App\Controller\UserController::modify')->bind('client.modify')
             ->assert('id', '\d+');
-        $controllers->get('delete{id}', 'App\Controller\UserController::delete')->bind('client.delete')
+        $controllers->get('/valideDelete{id}', 'App\Controller\UserController::valideDelete')->bind('client.valideDelete')
             ->assert('id', '\d+');
+        $controllers->delete('/delete', 'App\Controller\UserController::delete')->bind('client.delete');
 
 
 		return $controllers;
@@ -116,10 +117,18 @@ class UserController implements ControllerProviderInterface {
         return $app["twig"]->render('frontOff/Client/show.html.twig', ['data' => $data]);
     }
 
-    public function delete(Application $app, $id){
+    public function valideDelete(Application $app, $id){
         $this->userModel = new UserModel($app);
         $data = $this->userModel->getUserById($id);
 
         return $app["twig"]->render('backOff/Client/valideDelete.html.twig', ['data' => $data]);
+    }
+    
+    public function delete(Application $app){
+        if (isset($_POST['id'])){
+            $this->userModel = new UserModel($app);
+            $this->userModel->delete($_POST['id']);
+        }
+        return $this->show($app);
     }
 }
