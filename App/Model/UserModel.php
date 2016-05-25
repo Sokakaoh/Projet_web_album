@@ -61,6 +61,7 @@ class UserModel {
 			->set('email', '?')
 			->set('login', '?')
 			->set('password', '?')
+            ->set('droit', '?')
 			->where('id = ?')
 			->setParameter(0, $data['nom'])
 			->setParameter(1, $data['adresse'])
@@ -69,8 +70,31 @@ class UserModel {
 			->setParameter(4, $data['email'])
 			->setParameter(5, $data['login'])
 			->setParameter(6, $data['password'])
-			->setParameter(7, (int)$this->getIdUser());
+            ->setParameter(7, $data['droit'])
+			->setParameter(8, $data['id']);
+            
 
 		return $query->execute();
 	}
+
+	public function getAllUser(){
+		$query = new QueryBuilder($this->db);
+		$query
+			->select('u.nom', 'u.adresse', 'u.code_postal', 'u.ville', 'u.email', 'u.login', 'u.password', 'u.droit', 'u.id')
+			->from('users', 'u');
+
+		return $query->execute()->fetchAll();
+	}
+
+    public function getUserById($id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->select('id', 'email', 'password', 'login', 'nom', 'code_postal',
+                'ville', 'adresse', 'valide', 'droit')
+            ->from('users')
+            ->where('id = ?')
+            ->setParameter(0, $id);
+
+        return $query->execute()->fetch();
+    }
 }

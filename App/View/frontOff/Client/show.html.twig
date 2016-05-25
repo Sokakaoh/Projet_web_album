@@ -2,7 +2,6 @@
 {% block contenu %}
     <div class="row">
         {% if data is not empty  %}
-
             <form method="post" action="{{ path('client.edit') }}">
                 <div class="row"></div>
                 {% if errors is defined %}
@@ -69,7 +68,21 @@
                         <small class="error">{{erreurs.email}}</small>
                     {% endif %}
 
-                    <input type="hidden" id="_method" name="_method" value="put" />
+                    {% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITadmin' %}
+                        <label>Droits:
+                            <select name="droit">
+                                <option value="DROITclient">
+                                    Client
+                                </option>
+                                <option value="DROITadmin">
+                                    Administrateur
+                                </option>
+                            </select>
+                        </label>
+                    {% endif %}
+
+
+                <input type="hidden" id="_method" name="_method" value="put" />
                     <input type="submit" class="" name="modifierClient" value="Modifier vos informations">
                 </fieldset>
             </form>

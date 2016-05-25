@@ -61,21 +61,30 @@ class UserController implements ControllerProviderInterface {
 		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('client.validFormEdit');
 		$controllers->get('/edit', 'App\Controller\UserController::edit')->bind('client.edit');
 
+        $controllers->get('/modify{id}', 'App\Controller\UserController::modify')->bind('client.modify')
+            ->assert('id', '\d+');
+        $controllers->get('delete{id}', 'App\Controller\UserController::delete')->bind('client.delete')
+            ->assert('id', '\d+');
+
 
 		return $controllers;
 	}
 
 	public function show(Application $app){
 		$this->userModel = new UserModel($app);
-		$data = $this->userModel->getUser();
-		
-		return $app["twig"]->render('frontOff/Client/show.html.twig', ['data' => $data]);
+		if ($this->userModel->isAdmin()){  
+            $data = $this->userModel->getAllUser();
+			return $app["twig"]->render('backOff/Client/show.html.twig', ['data' => $data]);
+		}else{
+			$data = $this->userModel->getUser();
+			return $app["twig"]->render('frontOff/Client/show.html.twig', ['data' => $data]);
+		}
 	}
 
 	public function validFormEdit(Application $app){
 		if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
 			isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
-			isset($_POST['password'])){
+			isset($_POST['password']) && isset($_POST['id']) && isset($_POST['droit'])){
 			$data = [
 				'nom' => htmlspecialchars($_POST['nom']),
 				'adresse' => $_POST['adresse'],
@@ -83,7 +92,9 @@ class UserController implements ControllerProviderInterface {
 				'ville' => $_POST['ville'],
 				'email' => $_POST['email'],
 				'login' => $_POST['login'],
-				'password' => $_POST['password']
+				'password' => $_POST['password'],
+                'id' => $_POST['id'],
+                'droit' => $_POST['droit']
 			];
 
 			$this->userModel = new UserModel($app);
@@ -98,4 +109,17 @@ class UserController implements ControllerProviderInterface {
 	public function edit(Application $app){
 		return $this->show($app);
 	}
+    
+    public function modify(Application $app, $id){
+        $this->userModel = new UserModel($app);
+        $data = $this->userModel->getUserById($id);
+        return $app["twig"]->render('frontOff/Client/show.html.twig', ['data' => $data]);
+    }
+
+    public function delete(Application $app, $id){
+        $this->userModel = new UserModel($app);
+        $data = $this->userModel->getUserById($id);
+
+        return $app["twig"]->render('backOff/Client/valideDelete.html.twig', ['data' => $data]);
+    }
 }

@@ -1,10 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
 	<div class="row">
-		{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-			<a href="{{ path('album.add') }}"> Ajouter un album </a>
-		{% endif %}
-
 		<table>
 			<caption>Recapitulatifs des albums</caption>
 			<thead>
@@ -13,7 +9,7 @@
 					<td>Panier</td>
 				{% endif %}
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-					<th>opération</th>
+					<th>Opération</th>
 				{% endif %}
 			</tr>
 			</thead>
@@ -44,8 +40,9 @@
 					{% endif %}
 					{% if app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
-							<a href="{{ path('album.edit', {id: album.id}) }}">modifier</a>
-							<a href="{{ path('album.delete', {id: album.id}) }}">supprimer</a>
+							<a href="{{ path('album.edit', {id: album.id}) }}"><i class="fi-widget"></i> Modifier</a>
+							<br/>
+							<a href="{{ path('album.delete', {id: album.id}) }}"><i class="fi-x"></i> Supprimer</a>
 						</td>
 					{% endif %}
 
