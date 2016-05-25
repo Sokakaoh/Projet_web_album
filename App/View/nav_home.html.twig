@@ -1,7 +1,8 @@
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area"> 
-      <li class="name"> 
-        <h1> <a href="">TP web<span style="color:#ff0000;"> menu avec twig</span></a></h1>
+      <li class="name">
+          <h1><span style="color:orange"><i class="fi-sound"></i><b> Music Store</b></span></h1>
+
       </li> 
       <li class="toggle-topbar menu-icon">
         <a href="#"><span>Menu</span></a>
@@ -21,6 +22,7 @@
                 <li class="name" style="color: #d58512">Connecté en tant que : {{ app.session.get('login') }}</li>
                 <li><a href="{{ path('user.logout')  }}">Se déconnecter</a></li>
             {% else %}
+                <li><a href="{{ path('user.inscription') }}">S'inscrire</a> </li>
                 <li><a href="{{ path('user.login')  }}">Se connecter</a></li>
             {% endif %}
         </ul>

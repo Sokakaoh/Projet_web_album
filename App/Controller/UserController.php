@@ -67,6 +67,10 @@ class UserController implements ControllerProviderInterface {
             ->assert('id', '\d+');
         $controllers->delete('/delete', 'App\Controller\UserController::delete')->bind('client.delete');
 
+        $controllers->get('/inscription', 'App\Controller\UserController::edit')->bind('user.inscription');
+
+        $controllers->put('/add', 'App\Controller\UserController::validFormEdit')->bind('client.add');
+
 
 		return $controllers;
 	}
@@ -83,27 +87,49 @@ class UserController implements ControllerProviderInterface {
 	}
 
 	public function validFormEdit(Application $app){
-		if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
-			isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
-			isset($_POST['password']) && isset($_POST['id']) && isset($_POST['droit'])){
-			$data = [
-				'nom' => htmlspecialchars($_POST['nom']),
-				'adresse' => $_POST['adresse'],
-				'code_postal' => $_POST['code_postal'],
-				'ville' => $_POST['ville'],
-				'email' => $_POST['email'],
-				'login' => $_POST['login'],
-				'password' => $_POST['password'],
-                'id' => $_POST['id'],
-                'droit' => $_POST['droit']
-			];
+        $this->userModel = new UserModel($app);
+        if ($this->userModel->isLogged()){
+            echo "validFormEdit isLogged";
+            if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
+                isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
+                isset($_POST['password']) && isset($_POST['id']) && isset($_POST['droit'])&&
+                isset($_POST['prenom'])){
+                $data = [
+                    'nom' => htmlspecialchars($_POST['nom']),
+                    'prenom' => htmlspecialchars($_POST['prenom']),
+                    'adresse' => $_POST['adresse'],
+                    'code_postal' => $_POST['code_postal'],
+                    'ville' => $_POST['ville'],
+                    'email' => $_POST['email'],
+                    'login' => $_POST['login'],
+                    'password' => $_POST['password'],
+                    'id' => $_POST['id'],
+                    'droit' => $_POST['droit']
+                ];
+                $this->userModel->editUser($data);
+            }
+		}else{
+            var_dump($_POST);
+            if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
+                isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
+                isset($_POST['password']) && isset($_POST['prenom']) && isset($_POST['password_verif']) &&
+                $_POST['password'] == $_POST['password_verif']){
+                echo "validFormEdit new user";
+                $data = [
+                    'nom' => htmlspecialchars($_POST['nom']),
+                    'prenom' => htmlspecialchars($_POST['prenom']),
+                    'adresse' => $_POST['adresse'],
+                    'code_postal' => $_POST['code_postal'],
+                    'ville' => $_POST['ville'],
+                    'email' => $_POST['email'],
+                    'login' => $_POST['login'],
+                    'password' => $_POST['password'],
+                ];
+                $this->userModel->addUser($data);
+                return $app->redirect($app["url_generator"]->generate("album.index"));
+            }
+        }
 
-			$this->userModel = new UserModel($app);
-			$this->userModel->editUser($data);
-			$this->userModel = new UserModel($app);
-			$this->userModel->editUser($data);
-
-		}
 		return$this->show($app);
 	}
 

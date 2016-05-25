@@ -40,7 +40,7 @@ class UserModel {
 	public function getUser(){
 		$query = new QueryBuilder($this->db);
 		$query
-			->select('id', 'email', 'password', 'login', 'nom', 'code_postal',
+			->select('id', 'email', 'password', 'login', 'nom', 'prenom', 'code_postal',
 				'ville', 'adresse', 'valide', 'droit')
 			->from('users')
 			->where('id = ?')
@@ -62,6 +62,7 @@ class UserModel {
 			->set('login', '?')
 			->set('password', '?')
             ->set('droit', '?')
+			->set('prenom', '?')
 			->where('id = ?')
 			->setParameter(0, $data['nom'])
 			->setParameter(1, $data['adresse'])
@@ -71,7 +72,8 @@ class UserModel {
 			->setParameter(5, $data['login'])
 			->setParameter(6, $data['password'])
             ->setParameter(7, $data['droit'])
-			->setParameter(8, $data['id']);
+            ->setParameter(8, $data['prenom'])
+			->setParameter(9, $data['id']);
             
 
 		return $query->execute();
@@ -80,7 +82,7 @@ class UserModel {
 	public function getAllUser(){
 		$query = new QueryBuilder($this->db);
 		$query
-			->select('u.nom', 'u.adresse', 'u.code_postal', 'u.ville', 'u.email', 'u.login', 'u.password', 'u.droit', 'u.id')
+			->select('u.nom', 'u.prenom', 'u.adresse', 'u.code_postal', 'u.ville', 'u.email', 'u.login', 'u.password', 'u.droit', 'u.id')
 			->from('users', 'u');
 
 		return $query->execute()->fetchAll();
@@ -105,5 +107,38 @@ class UserModel {
             ->where('id = ?')
             ->setParameter(0, $id);
         return $query->execute();
+    }
+
+    public function addUser($data){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->insert('users')
+            ->values([
+                'login' => '?',
+                'prenom' => '?',
+                'nom' => '?',
+                'password' => '?',
+                'email' => '?',
+                'code_postal' => '?',
+                'droit' => '?',
+                'adresse' => '?',
+                'ville' => '?',
+                'valide' => 0
+            ])
+            ->setParameter(0, $data['login'])
+            ->setParameter(1, $data['prenom'])
+            ->setParameter(2, $data['nom'])
+            ->setParameter(3, $data['password'])
+            ->setParameter(4, $data['email'])
+            ->setParameter(5, $data['code_postal'])
+            ->setParameter(6, 'DROITclient')
+            ->setParameter(7, $data['adresse'])
+            ->setParameter(8, $data['ville']);
+        
+        return$query->execute();
+    }
+    
+    public function isLogged(){
+        return $this->session->get('logged') != null;
     }
 }

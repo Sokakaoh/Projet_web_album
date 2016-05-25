@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS users (
   password varchar(255) NOT NULL,
   login varchar(255) NOT NULL,
   nom varchar(255) NOT NULL,
+  prenom varchar(255) NOT NULL,
   code_postal varchar(255) NOT NULL,
   ville varchar(255) NOT NULL,
   adresse varchar(255) NOT NULL,
@@ -90,12 +91,12 @@ CREATE TABLE IF NOT EXISTS users (
 ) DEFAULT CHARSET=utf8;
 
 -- Contenu de la table users
-INSERT INTO users (id, nom, code_postal, ville, adresse, login,password,email,valide,droit) VALUES
-(1, 'Evan', '77163', 'Mortcerf', '6 rue du 27 août', 'admin', 'admin', 'admin@gmail.com',1,'DROITadmin'),
-(2, 'Loan', '90000', 'Belfort', 'X rue de Madagascar', 'vendeur', 'vendeur', 'vendeur@gmail.com',1,'DROITadmin'),
-(3, 'Tristan', '75011', 'Paris', '15 place de la République', 'client', 'client', 'client@gmail.com',1,'DROITclient'),
-(4, 'Florent', '75006', 'Paris', '36 bis rue de la Fonse', 'client2', 'client2', 'client2@gmail.com',1,'DROITclient'),
-(5, 'Ahmed', '75002', 'Paris', '2 Avenue des Champs Elysées', 'client3', 'client3', 'client3@gmail.com','1','DROITclient');
+INSERT INTO users (id, prenom, nom, code_postal, ville, adresse, login,password,email,valide,droit) VALUES
+(1, 'Quentin', 'Evanzyker', '77163', 'Mortcerf', '6 rue du 27 août', 'admin', 'admin', 'admin@gmail.com',1,'DROITadmin'),
+(2, 'Loan', 'S0kah', '90000', 'Belfort', 'X rue de Madagascar', 'vendeur', 'vendeur', 'vendeur@gmail.com',1,'DROITadmin'),
+(3, 'Tristan', 'Sniperz', '75011', 'Paris', '15 place de la République', 'client', 'client', 'client@gmail.com',1,'DROITclient'),
+(4, 'Thomas', 'BTK', '75006', 'Paris', '36 bis rue de la Fonse', 'client2', 'client2', 'client2@gmail.com',1,'DROITclient'),
+(5, 'Ahmed', 'Medah', '75002', 'Paris', '2 Avenue des Champs Elysées', 'client3', 'client3', 'client3@gmail.com','1','DROITclient');
 
 
 

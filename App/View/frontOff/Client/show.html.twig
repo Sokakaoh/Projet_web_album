@@ -1,8 +1,13 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
     <div class="row">
-        {% if data is not empty  %}
-            <form method="post" action="{{ path('client.edit') }}">
+            <form method="post" action="
+                {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+                    {{ path('client.edit') }}
+                   {% else %}
+                    {{ path('client.add') }}
+                {% endif %}
+            ">
                 <div class="row"></div>
                 {% if errors is defined %}
                     <div data-alert class="alert-box alert round">
@@ -16,53 +21,83 @@
                 {% endif %}
 
                 <fieldset>
-                    <legend>Vos informations</legend>
-                    <input name="id" type="hidden" value="{{ data.id }}" />
+                    {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+                        <legend>Vos informations</legend>
+                    {% else %}
+                        <legend>Veuillez remplir le formulaire d'inscription</legend>
+                    {% endif %}
 
-                    <label> Identifiant:
-                        <input name="login" type="text" value="{{ data.login }}" />
+                    {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+                        <input name="id" type="hidden" value="{{ data.id }}" />
+                    {% endif %}
+
+                    <label>
+                         Identifiant:
+                        {% if app.session.get('logged') is defined and  app.session.get('logged') == 0 %}
+                            (Il vous servira à vous connecter)
+                        {% endif %}
+                        <input name="login" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %} value="{{ data.login }}" {% endif %}/>
                     </label>
                     {% if erreurs.login is defined %}
                         <small class="error">{{erreurs.login}}</small>
                     {% endif %}
 
                     <label> Mot de passe:
-                        <input name="password" type="password" value="{{ data.password }}" />
+                        <input name="password" type="password" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}value="{{ data.password }}" {% endif %} />
                     </label>
                     {% if erreurs.paswword is defined %}
                         <small class="error">{{erreurs.password}}</small>
                     {% endif %}
 
-                    <label>Nom:
-                        <input name="nom" type="text" value="{{ data.nom }}" />
+                    {% if app.session.get('logged') is defined and  app.session.get('logged') == 0 %}
+                        <label> Mot de passe (Vérification):
+                            <input name="password_verif" type="password" value="" />
+                        </label>
+                        {% if erreurs.paswword_verif is defined %}
+                            <small class="error">{{erreurs.password_verif}}</small>
+                        {% endif %}
+                    {% endif %}
+
+                    <label> Nom:
+                        <input name="nom" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}value="{{ data.nom }}" {% endif %}/>
                         {% if erreurs.nom is defined %}
                             <small class="error">{{erreurs.nom}}</small>
                         {% endif %}
                     </label>
 
-                    <label>Adresse:
-                        <input name="adresse" type="text" value="{{ data.adresse }}"/>
+                    <label> Prénom:
+                        <input name="prenom" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %} value="{{ data.prenom }}" {% endif %}/>
+                        {% if erreurs.prenom is defined %}
+                            <small class="error">{{erreurs.prenom}}</small>
+                        {% endif %}
+                    </label>
+
+                    <label> Adresse:
+                        <input name="adresse" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}value="{{ data.adresse }}" {% endif %}/>
                         {% if erreurs.adresse is defined %}
                             <small class="error">{{erreurs.adresse}}</small>
                         {% endif %}
                     </label>
 
                     <label> Code Postal:
-                        <input name="code_postal" type="text" value="{{ data.code_postal }}" />
+                        <input name="code_postal" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %} value="{{ data.code_postal }}" {% endif %}/>
                     </label>
                     {% if erreurs.code_postal is defined %}
                         <small class="error">{{erreurs.code_postal}}</small>
                     {% endif %}
 
                     <label> Ville:
-                        <input name="ville" type="text" value="{{ data.ville }}" />
+                        <input name="ville" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1 %}value="{{ data.ville }}" {% endif %}/>
                     </label>
                     {% if erreurs.ville is defined %}
                         <small class="error">{{erreurs.ville}}</small>
                     {% endif %}
 
-                    <label> Email:
-                        <input name="email" type="text" value="{{ data.email }}" />
+                    <label> Email
+                        {% if app.session.get('logged') is defined and  app.session.get('logged') == 0 %}
+                             (Nous confirmons l'envoi de vos commandes par email !)
+                        {% endif %}
+                        <input name="email" type="text" {% if app.session.get('logged') is defined and  app.session.get('logged') == 1%}value="{{ data.email }}" {% endif %}/>
                     </label>
                     {% if erreurs.email is defined %}
                         <small class="error">{{erreurs.email}}</small>
@@ -86,7 +121,5 @@
                     <input type="submit" class="" name="modifierClient" value="Modifier vos informations">
                 </fieldset>
             </form>
-
-        {% endif %}
     </div>
 {% endblock contenu%}

@@ -22,7 +22,7 @@
 					<td>{{album.libelle}}</td>
 					<td>{{album.prix}}</td>
 					<td>
-						<img style="width:80px;height:80px" src="{{asset('images/')}}{{album.photo}}" alt="image de {{album.libelle}}" >
+						<img style="width:140px;height:140px" src="{{asset('images/')}}{{album.photo}}" alt="image de {{album.libelle}}" >
 					</td>
 					{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
 						<td>
