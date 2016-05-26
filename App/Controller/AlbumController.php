@@ -185,13 +185,19 @@ class AlbumController implements ControllerProviderInterface
         $controllers->get('/add', 'App\Controller\AlbumController::add')->bind('album.add');
         $controllers->post('/add', 'App\Controller\AlbumController::validFormAdd')->bind('album.validFormAdd');
 
-        $controllers->get('/delete/{id}', 'App\Controller\AlbumController::delete')->bind('album.delete')->assert('id', '\d+');;
+        $controllers->get('/delete/{id}', 'App\Controller\AlbumController::delete')->bind('album.delete')->assert('id', '\d+');
         $controllers->delete('/delete', 'App\Controller\AlbumController::validFormDelete')->bind('album.validFormDelete');
 
-        $controllers->get('/edit/{id}', 'App\Controller\AlbumController::edit')->bind('album.edit')->assert('id', '\d+');;
+        $controllers->get('/edit/{id}', 'App\Controller\AlbumController::edit')->bind('album.edit')->assert('id', '\d+');
         $controllers->put('/edit', 'App\Controller\AlbumController::validFormEdit')->bind('album.validFormEdit');
 
+        $controllers->get('/stock/{id}', 'App\Controller\AlbumController::stock')->bind('album.stock')->assert('id', '\d+');
+
         return $controllers;
+    }
+    
+    public function stock(Application $app, $id){
+        
     }
 
 

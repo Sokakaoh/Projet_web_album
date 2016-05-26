@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+
+<div class="row">
+    <form method="post" action="{{ path('album.stock')}}">
+        <div class="row">
+            <fieldset>
+                <legend>Modifier le stock de l'album: {{ data.nom }}</legend>
+                <input name="id"  type="hidden" value="{{data.id}}" />
+                <input name="stock" type="text" value="data.stock"/>
+                <input type="hidden" id="_method" name="_method" value="put" />
+                <input type="submit" name="changeStock" value="Changer stock" />
+            </fieldset>
+        </div>
+    </form>
+</div>
