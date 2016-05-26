@@ -89,7 +89,6 @@ class UserController implements ControllerProviderInterface {
 	public function validFormEdit(Application $app){
         $this->userModel = new UserModel($app);
         if ($this->userModel->isLogged()){
-            echo "validFormEdit isLogged";
             if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
                 isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
                 isset($_POST['password']) && isset($_POST['id']) && isset($_POST['droit'])&&
@@ -109,12 +108,10 @@ class UserController implements ControllerProviderInterface {
                 $this->userModel->editUser($data);
             }
 		}else{
-            var_dump($_POST);
             if (isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['code_postal'])&&
                 isset($_POST['ville']) && isset($_POST['email']) && isset($_POST['login']) &&
                 isset($_POST['password']) && isset($_POST['prenom']) && isset($_POST['password_verif']) &&
                 $_POST['password'] == $_POST['password_verif']){
-                echo "validFormEdit new user";
                 $data = [
                     'nom' => htmlspecialchars($_POST['nom']),
                     'prenom' => htmlspecialchars($_POST['prenom']),
@@ -145,7 +142,7 @@ class UserController implements ControllerProviderInterface {
 
     public function valideDelete(Application $app, $id){
         $this->userModel = new UserModel($app);
-        $data = $this->userModel->getUserById($id);
+        $data = $this->userModel->getUserById((int)$id);
 
         return $app["twig"]->render('backOff/Client/valideDelete.html.twig', ['data' => $data]);
     }

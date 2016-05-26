@@ -92,7 +92,7 @@ class UserModel {
         $query = new QueryBuilder($this->db);
         $query
             ->select('id', 'email', 'password', 'login', 'nom', 'code_postal',
-                'ville', 'adresse', 'valide', 'droit')
+                'ville', 'adresse', 'valide', 'droit', 'prenom')
             ->from('users')
             ->where('id = ?')
             ->setParameter(0, $id);

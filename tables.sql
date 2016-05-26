@@ -125,12 +125,5 @@ CREATE TABLE IF NOT EXISTS paniers (
   user_id int(11) NOT NULL,
   album_id int(11) NOT NULL,
   commande_id int(11) DEFAULT NULL,
-  PRIMARY KEY (id, album_id)/*,
- CONSTRAINT fk_paniers_users FOREIGN KEY (user_id) REFERENCES users (id),
-  CONSTRAINT fk_paniers_produits FOREIGN KEY (produit_id) REFERENCES produits (id),
-  CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes */
+  PRIMARY KEY (id, album_id)
 ) DEFAULT CHARSET=utf8;
-INSERT INTO paniers (id,quantite,prix,user_id,album_id,commande_id ) VALUES
-(1, 2, '5.5',3,2,1),
-(2, 1, '100',4,1,1),
-(3, 5, '10',5,4,2);

@@ -108,5 +108,15 @@ class AlbumModel {
         $query->execute();
     }
 
+    public function incrementQteAlbum($album_id){
+        $query = new QueryBuilder($this->db);
+        $query
+            ->update('album')
+            ->set('stock', 'stock + 1')
+            ->where("id = ?")
+            ->setParameter(0, $album_id);
+        $query->execute();
+    }
+
 
 }

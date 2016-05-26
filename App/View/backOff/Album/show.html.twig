@@ -17,26 +17,26 @@
 			{% for album in data if data is not empty %}
 
 				<tr>
-					<td>{{album.nom}}</td>
-					<td>{{ album.artiste }}</td>
-					<td>{{album.libelle}}</td>
-					<td>{{album.prix}}</td>
+					<td style="font-size: 16px;"><i class="fi-record"></i> {{album.nom}}</td>
+					<td style="font-size: 16px;"><i class="fi-male"></i> {{ album.artiste }}</td>
+					<td><i class="fi-microphone"></i> {{album.libelle}}</td>
+					<td>{{album.prix}} <i class="fi-euro" style="size: 25px;"></i></td>
 					<td>
-						<img style="width:140px;height:140px" src="{{asset('images/')}}{{album.photo}}" alt="image de {{album.libelle}}" >
+						<img style="width:140px;height:140px; border-radius: 10px;" src="{{asset('images/')}}{{album.photo}}" alt="image de {{album.libelle}}" >
 					</td>
 					{% if app.session.get('droit') is defined and app.session.get('droit') == 'DROITclient' %}
 						<td>
                             {% if album.stock > 0 %}
 							    <a href="{{ path('panier.add', {id: album.id}) }}" >
-                                    {% if album.stock > 5 %}
+                                    {% if album.stock > 10 %}
 									    <span class="fi-shopping-cart" style="margin-left: 30%;"> Ajouter
                                             <br>
-                                            (Encore {{ album.stock }} exemplaires)
+                                            <i class="fi-info"></i> Encore {{ album.stock }} exemplaires <i class="fi-info"></i>
                                         </span></a>
                                     {% else %}
                                         <span class="fi-shopping-cart" style="margin-left: 30%; color: #ff8f0e"> Ajouter
                                         <br>
-                                        (Plus que {{ album.stock }} exemplaires !)
+                                        <i class="fi-burst-sale"></i> Plus que {{ album.stock }} exemplaires ! <i class="fi-burst-sale"></i>
                                         </span>
                                     {% endif %}
                                 </a>

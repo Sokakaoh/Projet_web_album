@@ -74,6 +74,8 @@ class PanierModel {
 
     public function incrementAlbum($datas){
         $qte = (int)$this->getQuantiteById($datas['id'], $datas['user_id']) + 1;
+
+        $this->albumModel->decrementQteAlbum((int)$datas['album_id']);
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('paniers')
@@ -88,6 +90,7 @@ class PanierModel {
 
     public function decrementAlbum($datas){
         $qte = (int)$this->getQuantiteById($datas['id'], $datas['user_id']) - 1;
+        $this->albumModel->incrementQteAlbum((int)$datas['album_id']);
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('paniers')

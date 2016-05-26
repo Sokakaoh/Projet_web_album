@@ -5,15 +5,18 @@
             <caption>Liste des utilisateurs</caption>
 
             <thead>
-                <th>Login</th>
-                <th>Password</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Code Postal</th>
-                <th>Ville</th>
-                <th>Email</th>
-                <th>Droits</th>
-                <th>Modifier</th>
+                <tr>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Adresse</th>
+                    <th>Code Postal</th>
+                    <th>Ville</th>
+                    <th>Email</th>
+                    <th>Droits</th>
+                    <th>Modifier</th>
+                </tr>
             </thead>
 
             <tbody>
@@ -22,12 +25,20 @@
                     <td>{{ user.login }}</td>
                     <td>{{ user.password }}</td>
                     <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
                     <td>{{ user.adresse }}</td>
                     <td>{{ user.code_postal }}</td>
                     <td>{{ user.ville }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.droit }}</td>
                     <td>
+                        {% if user.droit == "DROITclient" %}
+                            Client
+                        {% else %}
+                            Administrateur
+                        {% endif %}
+
+                    </td>
+                    <td style="width: 130px; font-size: 17px;">
                         <a href="{{ path('client.modify', {id: user.id}) }}"><i class="fi-widget"> Modifier</i></a>
                         <br/>
                         <a href="{{ path('client.valideDelete', {id: user.id}) }}"><i class="fi-x"> Supprimer</i></a>
