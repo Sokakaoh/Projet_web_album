@@ -28,8 +28,18 @@
 						<td>
                             {% if album.stock > 0 %}
 							    <a href="{{ path('panier.add', {id: album.id}) }}" >
-									<span class="fi-shopping-cart" style="margin-left: 30%;"> Ajouter
-                                        <br>(Encore {{ album.stock }} exemplaires)</span></a>
+                                    {% if album.stock > 5 %}
+									    <span class="fi-shopping-cart" style="margin-left: 30%;"> Ajouter
+                                            <br>
+                                            (Encore {{ album.stock }} exemplaires)
+                                        </span></a>
+                                    {% else %}
+                                        <span class="fi-shopping-cart" style="margin-left: 30%; color: #ff8f0e"> Ajouter
+                                        <br>
+                                        (Plus que {{ album.stock }} exemplaires !)
+                                        </span>
+                                    {% endif %}
+                                </a>
                             {% else %}
                                 <i class="fi-alert" style="margin-left: 40%; color: red;">
                                     <br>

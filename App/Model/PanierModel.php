@@ -50,7 +50,6 @@ class PanierModel {
 
     public function add($datas){
         $paniers = $this->getAllPaniers();
-        echo "test".$datas['nom'];
         // On vérifie que l'album n'est pas déja dans le panier
         foreach ($paniers as $p){
             // Si c'est le cas on modifie la quantite et le prix
